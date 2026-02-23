@@ -6,7 +6,7 @@ import java.util.List;
 @RestController
 public class StudentController {
 
-    public List<Students> getStudents() {
+    public List<Student> getStudents() {
         return List.of(
             new Student(1, "ram", 22),
             new Student(2, "jhon", 26),

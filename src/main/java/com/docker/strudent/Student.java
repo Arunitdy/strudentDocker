@@ -1,4 +1,4 @@
-package com.docker;
+package com.docker.strudent;
 
 public class Student {
     private int id;
@@ -12,7 +12,7 @@ public class Student {
     }
 
 
-    public iny getId() {
+    public int getId() {
         return id;
     }
 
