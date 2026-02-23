@@ -1,0 +1,112 @@
+Spring Boot + PostgreSQL + Docker (Multi-Container Project)
+
+This project demonstrates a Spring Boot REST API running inside Docker and connected to a PostgreSQL database using Docker Compose (multi-container setup).
+
+🚀 Tech Stack
+
+Java 17
+
+Spring Boot
+
+Spring Web
+
+Spring Data JPA
+
+PostgreSQL
+
+Maven
+
+Docker
+
+Docker Compose
+
+📁 Project Structure
+strudent/
+│
+├── src/
+│   └── main/java/com/docker/strudent/
+│       ├── StrudentApplication.java
+│       ├── Student.java
+│       └── StudentController.java
+│
+├── Dockerfile
+├── docker-compose.yml
+├── pom.xml
+└── README.md
+⚙️ How It Works
+
+Architecture:
+
+Browser → localhost:8080
+        ↓
+Spring Boot Container (app)
+        ↓
+PostgreSQL Container (db)
+
+The app container runs the Spring Boot application.
+
+The db container runs PostgreSQL.
+
+Docker Compose manages both services.
+
+🐳 Docker Setup
+1️⃣ Dockerfile
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
+2️⃣ docker-compose.yml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: studentdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+🛠️ Build and Run
+Step 1: Build the JAR file
+mvn clean package
+
+Make sure you see:
+
+BUILD SUCCESS
+Step 2: Start Containers
+docker compose up --build
+
+Wait until you see:
+
+Tomcat started on port 8080
+Started StrudentApplication
+🌐 API Endpoint
+
+Open in browser:
+
+http://localhost:8080/students
+Sample Response
+[
+  {"id":1,"name":"ram","age":22},
+  {"id":2,"name":"jhon","age":26},
+  {"id":3,"name":"Alice","age":18}
+]
+Test with Curl
+curl http://localhost:8080/students
+
+Stop Containers
+docker compose down
+
+To remove volumes:
+
+docker compose down -v
